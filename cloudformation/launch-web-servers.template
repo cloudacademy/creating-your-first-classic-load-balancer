@@ -1,0 +1,71 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+
+  "Description" : "This template is used in the Creating your fist Classic Load Balancer lab at Cloud Academy. It creates two webservers in a current VPC",
+
+  "Parameters": {
+		"KeyName": {
+			"Description": "Keypair name",
+			"Type": "AWS::EC2::KeyPair::KeyName"
+		},
+		"VpcId": {
+			"Description": "VPC to use",
+			"Type": "AWS::EC2::VPC::Id"
+		},
+		"SubnetIdA": {
+			"Description": "First Subnet to use",
+			"Type": "AWS::EC2::Subnet::Id"
+		},
+		"SubnetIdB": {
+			"Description": "Second Subnet to use",
+			"Type": "AWS::EC2::Subnet::Id"
+		},
+		"AmiId": {
+			"Description": "AMI ID to use for the web nodes",
+			"Type": "String"
+		}
+
+	},
+  "Resources" : {
+
+    "EC2Instance": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "InstanceType": "t2.micro",
+        "KeyName": {
+          "Ref": "KeyName"
+        },
+        "ImageId": {
+          "Ref": "AmiId"
+        },
+        "Tags": [{
+          "Key": "Name",
+          "Value": "WebServerA"
+        }],
+           "NetworkInterfaces" : [{
+              "GroupSet"                 : [{ "Ref": "InstancesSecurityGroup" }],
+              "AssociatePublicIpAddress" : "true",
+              "DeviceIndex"              : "0",
+              "DeleteOnTermination"      : "true",
+              "SubnetId"                 : { "Ref" : "SubnetIdA" }
+            }],
+        "UserData": {
+          "Fn::Base64": {
+            "Fn::Join": [
+              "", [
+                "#!/bin/bash -xe\n",
+                "yum update -y\n",
+                "yum install -y stress --enablerepo=epel\n",
+                "echo \"10 * * * * stress -c 1 -i 1\" > crontab.txt\n",
+                "crontab crontab.txt\n"
+              ]
+            ]
+          }
+        }
+      }
+    }
+  },
+
+  "Outputs" : {}
+
+}
