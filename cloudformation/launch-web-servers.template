@@ -116,8 +116,8 @@
               "chkconfig --levels 235 httpd on\n",
               "echo \"NameVirtualHost *:80\" >> /etc/httpd/conf/httpd.conf\n",
               "git clone https://github.com/cloudacademy/creating-your-first-classic-load-balancer.git\n",
-              "cd creating-your-first-classic-load-balancer\n",
-              "yes | cp -rf assets/index.html /var/www/index.html\n",
+              "cd creating-your-first-classic-load-balancer/\n",
+              "yes | cp -f assets/index.html /var/www/index.html\n",
               "service httpd restart\n"
             ]
           ]

@@ -27,6 +27,6 @@ In the end of this lab you should be able to:
 - Add existing EC2 instances and a Classic Load Balancer
 
 
-------------------------
+***
 
 Do you have questions on this lab? Contact our cloud experts in our [community forum](http://cloudacademy.com/community/) or send an email to [support@cloudacademy.com](mailto:support@cloudacademy.com).
