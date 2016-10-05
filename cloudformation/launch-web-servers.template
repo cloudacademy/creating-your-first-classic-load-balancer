@@ -28,7 +28,7 @@
 	},
   "Resources" : {
 
-    "EC2Instance": {
+    "EC2InstanceA": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
         "InstanceType": "t2.micro",
@@ -43,7 +43,7 @@
           "Value": "WebServerA"
         }],
            "NetworkInterfaces" : [{
-              "GroupSet"                 : [{ "Ref": "InstancesSecurityGroup" }],
+              "GroupSet"                 : [{ "Ref": "WebAppSG" }],
               "AssociatePublicIpAddress" : "true",
               "DeviceIndex"              : "0",
               "DeleteOnTermination"      : "true",
@@ -55,9 +55,13 @@
               "", [
                 "#!/bin/bash -xe\n",
                 "yum update -y\n",
-                "yum install -y stress --enablerepo=epel\n",
-                "echo \"10 * * * * stress -c 1 -i 1\" > crontab.txt\n",
-                "crontab crontab.txt\n"
+                "yum install -y git httpd\n",
+                "chkconfig --levels 235 httpd on\n",
+                "echo \"NameVirtualHost *:80\" >> /etc/httpd/conf/httpd.conf\n",
+                "git clone https://github.com/cloudacademy/creating-your-first-classic-load-balancer\n",
+                "cd creating-your-first-classic-load-balancer\n",
+                "yes | cp -rf assets/index.html /var/www/index.html\n",
+                "service httpd restart\n",
               ]
             ]
           }
@@ -65,7 +69,47 @@
       }
     }
   },
-
+  "EC2InstanceB": {
+    "Type": "AWS::EC2::Instance",
+    "Properties": {
+      "InstanceType": "t2.micro",
+      "KeyName": {
+        "Ref": "KeyName"
+      },
+      "ImageId": {
+        "Ref": "AmiId"
+      },
+      "Tags": [{
+        "Key": "Name",
+        "Value": "WebServerA"
+      }],
+         "NetworkInterfaces" : [{
+            "GroupSet"                 : [{ "Ref": "WebAppSG" }],
+            "AssociatePublicIpAddress" : "true",
+            "DeviceIndex"              : "0",
+            "DeleteOnTermination"      : "true",
+            "SubnetId"                 : { "Ref" : "SubnetIdB" }
+          }],
+      "UserData": {
+        "Fn::Base64": {
+          "Fn::Join": [
+            "", [
+              "#!/bin/bash -xe\n",
+              "yum update -y\n",
+              "yum install -y git httpd\n",
+              "chkconfig --levels 235 httpd on\n",
+              "echo \"NameVirtualHost *:80\" >> /etc/httpd/conf/httpd.conf\n",
+              "git clone https://github.com/cloudacademy/creating-your-first-classic-load-balancer\n",
+              "cd creating-your-first-classic-load-balancer\n",
+              "yes | cp -rf assets/index.html /var/www/index.html\n",
+              "service httpd restart\n",
+            ]
+          ]
+        }
+      }
+    }
+  }
+},
   "Outputs" : {}
 
 }
