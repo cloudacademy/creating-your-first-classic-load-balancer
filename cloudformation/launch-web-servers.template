@@ -22,12 +22,29 @@
 		},
 		"AmiId": {
 			"Description": "AMI ID to use for the web nodes",
-			"Type": "String"
+			"Type": "String",
+      "Default": "ami-b04e92d0"
 		}
 
 	},
   "Resources" : {
-
+    "WebAppSG": {
+      "Type" : "AWS::EC2::SecurityGroup",
+      "Properties" : {
+         "GroupDescription" : "Allow http to ec2 instances",
+         "VpcId" : {"Ref" : "VpcId"},
+         "SecurityGroupIngress" : [{
+               "IpProtocol" : "tcp",
+               "FromPort" : "80",
+               "ToPort" : "80",
+               "CidrIp" : "0.0.0.0/0"
+            }],
+          "Tags": [{
+            "Key": "Name",
+            "Value": "Web-App-SG"
+          }]
+      }
+    },
     "EC2InstanceA": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
@@ -61,14 +78,13 @@
                 "git clone https://github.com/cloudacademy/creating-your-first-classic-load-balancer\n",
                 "cd creating-your-first-classic-load-balancer\n",
                 "yes | cp -rf assets/index.html /var/www/index.html\n",
-                "service httpd restart\n",
+                "service httpd restart\n"
               ]
             ]
           }
         }
       }
-    }
-  },
+    },
   "EC2InstanceB": {
     "Type": "AWS::EC2::Instance",
     "Properties": {
@@ -81,7 +97,7 @@
       },
       "Tags": [{
         "Key": "Name",
-        "Value": "WebServerA"
+        "Value": "WebServerB"
       }],
          "NetworkInterfaces" : [{
             "GroupSet"                 : [{ "Ref": "WebAppSG" }],
@@ -99,10 +115,10 @@
               "yum install -y git httpd\n",
               "chkconfig --levels 235 httpd on\n",
               "echo \"NameVirtualHost *:80\" >> /etc/httpd/conf/httpd.conf\n",
-              "git clone https://github.com/cloudacademy/creating-your-first-classic-load-balancer\n",
+              "git clone https://github.com/cloudacademy/creating-your-first-classic-load-balancer.git\n",
               "cd creating-your-first-classic-load-balancer\n",
               "yes | cp -rf assets/index.html /var/www/index.html\n",
-              "service httpd restart\n",
+              "service httpd restart\n"
             ]
           ]
         }
