@@ -75,10 +75,10 @@
                 "yum install -y git httpd\n",
                 "chkconfig --levels 235 httpd on\n",
                 "echo \"NameVirtualHost *:80\" > /etc/httpd/conf/httpd.conf\n",
-                "echo \"# Nothing in here\" > /etc/httpd/conf/httpd.conf\n",
+                "echo \"# Nothing in here\" > /etc/httpd/conf.d/welcome.conf\n",
                 "git clone https://github.com/cloudacademy/creating-your-first-classic-load-balancer.git\n",
                 "cd creating-your-first-classic-load-balancer/\n",
-                "yes | cp -f assets/index.html /var/www/html/index.html\n",
+                "cp -f assets/index.html /var/www/html/index.html\n",
                 "service httpd restart\n"
               ]
             ]
@@ -116,10 +116,10 @@
               "yum install -y git httpd\n",
               "chkconfig --levels 235 httpd on\n",
               "echo \"NameVirtualHost *:80\" > /etc/httpd/conf/httpd.conf\n",
-              "echo \"# Nothing in here\" > /etc/httpd/conf/httpd.conf\n",
+              "echo \"# Nothing in here\" > /etc/httpd/conf.d/welcome.conf\n",
               "git clone https://github.com/cloudacademy/creating-your-first-classic-load-balancer.git\n",
               "cd creating-your-first-classic-load-balancer/\n",
-              "yes | cp -f assets/index.html /var/www/html/index.html\n",
+              "cp -f assets/index.html /var/www/html/index.html\n",
               "service httpd restart\n"
             ]
           ]
