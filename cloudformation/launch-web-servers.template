@@ -77,6 +77,10 @@
                 "echo \"# Nothing in here\" > /etc/httpd/conf.d/welcome.conf\n",
                 "git clone https://github.com/cloudacademy/creating-your-first-classic-load-balancer.git\n",
                 "cd creating-your-first-classic-load-balancer/\n",
+                "INSTANCEID=$(curl http://169.254.169.254/2016-06-30/meta-data/instance-id)\n",
+                "HOSTURL=$(curl http://169.254.169.254/2016-06-30/meta-data/public-hostname)\n",
+                "sed -i \"s/instanceID/$INSTANCEID/g\" assets/index.html\n",
+                "sed -i \"s/publicHostname/$HOSTURL/g\" assets/index.html\n",
                 "cp -f assets/index.html /var/www/html/index.html\n",
                 "service httpd restart\n"
               ]
