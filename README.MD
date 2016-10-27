@@ -1,7 +1,7 @@
 ![Alt text](assets/logo.png?raw=true "Cloud Academy") Creating your first Classic Load Balancer
 ====================
 
-This repo is part of the Creating your first Classic Load Balancer lab. For detailed step-by-step guide click [here](https://cloudacademy.com/amazon-web-services/labs/creating-your-first-classic-load-balancer-49/)
+This repo is part of the Creating your first Classic Load Balancer lab. For detailed step-by-step guide click [here](https://cloudacademy.com/amazon-web-services/labs/create-your-first-amazon-elastic-load-balancing-elb-4/)
 
 
 
